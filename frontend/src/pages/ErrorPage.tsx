@@ -1,4 +1,4 @@
-type ErrorProps = { title: string | null; error: string | null };
+type ErrorProps = { title: string | null; error?: string | null };
 
 export function ErrorPage({ title, error }: ErrorProps) {
   return (

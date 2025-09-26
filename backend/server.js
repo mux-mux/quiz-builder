@@ -6,14 +6,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-let quizess = [
+let quizzes = [
   {
-    id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+    id: 0,
     title: 'Cats related questions',
     questions: ['How many cats do you have?', 'What colors they are?'],
   },
   {
-    id: '7d4ae91d-3b7d-4bad-9bdd-2b0d7b3dcbcd',
+    id: 1,
     title: 'Dogs related questions',
     questions: [
       'How many dogs do you have?',
@@ -23,14 +23,21 @@ let quizess = [
   },
 ];
 
-app.get('/quizess', (req, res) => {
-  const titles = quizess.map((quizz) => {
+app.get('/quizzes', (req, res) => {
+  const titles = quizzes.map((quizz) => {
     return {
       title: quizz.title,
       questionsCount: quizz.questions.length,
     };
   });
   res.json(titles);
+});
+
+app.get('/quizzes/:id', (req, res) => {
+  const id = Number(req.params.id);
+
+  const quizzesDetails = quizzes.filter((quiz) => quiz.id === id);
+  res.json(quizzesDetails);
 });
 
 app.listen(PORT, () => {

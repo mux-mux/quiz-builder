@@ -1,4 +1,4 @@
-# Quiz Builder - :crystal_ball:Amazing app to build quizes:ok_woman:
+# Quiz Builder - :crystal_ball:Amazing app to build quizzes:ok_woman:
 
 ## [Live Link](https://jsgo.pro/quizbuilder/) :link:
 
