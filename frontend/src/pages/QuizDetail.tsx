@@ -9,7 +9,7 @@ type QuizDetailProps = {
   questions: string[];
 };
 
-const QuizDetail = () => {
+export function QuizDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data, error, loading } = useFetch<QuizDetailProps[]>(
@@ -39,6 +39,4 @@ const QuizDetail = () => {
       </div>
     </div>
   );
-};
-
-export default QuizDetail;
+}

@@ -4,8 +4,9 @@ import { useFetch } from '../hooks/useFetch';
 import { ErrorPage } from './ErrorPage';
 
 type QuizzesProps = {
+  id: number;
   title: string;
-  questionsCount: number;
+  count: number;
 };
 
 export function QuizList() {
@@ -19,12 +20,12 @@ export function QuizList() {
 
   return (
     <div className="flex flex-col space-y-4 mb-6">
-      {data.map(({ title, questionsCount }, index) => (
-        <div key={index} className="p-4 border border-gray-200 rounded-lg">
-          <NavLink to={`quizzes/${index}`} className="text-lg font-semibold">
+      {data.map(({ id, title, count }) => (
+        <div key={id} className="p-4 border border-gray-200 rounded-lg">
+          <NavLink to={`quizzes/${id}`} className="text-lg font-semibold">
             {title}
           </NavLink>
-          <p className="mt-2">{questionsCount}</p>
+          <p className="mt-2">{count}</p>
         </div>
       ))}
     </div>

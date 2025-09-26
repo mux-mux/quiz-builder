@@ -2,18 +2,20 @@ import express from 'express';
 import cors from 'cors';
 
 const PORT = 3001;
+let id = 0;
+
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 let quizzes = [
   {
-    id: 0,
+    id: ++id,
     title: 'Cats related questions',
     questions: ['How many cats do you have?', 'What colors they are?'],
   },
   {
-    id: 1,
+    id: ++id,
     title: 'Dogs related questions',
     questions: [
       'How many dogs do you have?',
@@ -27,7 +29,7 @@ app.get('/quizzes', (req, res) => {
   const titles = quizzes.map((quizz) => {
     return {
       title: quizz.title,
-      questionsCount: quizz.questions.length,
+      count: quizz.questions.length,
     };
   });
   res.json(titles);
@@ -36,8 +38,20 @@ app.get('/quizzes', (req, res) => {
 app.get('/quizzes/:id', (req, res) => {
   const id = Number(req.params.id);
 
-  const quizzesDetails = quizzes.filter((quiz) => quiz.id === id);
-  res.json(quizzesDetails);
+  const quizDetails = quizzes.filter((quiz) => quiz.id === id);
+  res.json(quizDetails);
+});
+
+app.post('/quizzes', (req, res) => {
+  const { title, questions } = req.body;
+  const newQuiz = {
+    id: ++id,
+    title,
+    questions,
+  };
+
+  quizzes.push(newQuiz);
+  res.status(201).json(quizzes);
 });
 
 app.listen(PORT, () => {
