@@ -1,7 +1,8 @@
 {
-  "name": "quiz-builder-app",
+  "name": "quiz-builder-frontend",
   "private": true,
   "version": "0.0.0",
+  "homepage": "/quizbuilder",
   "type": "module",
   "scripts": {
     "dev": "vite",

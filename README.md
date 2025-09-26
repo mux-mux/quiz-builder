@@ -1,6 +1,6 @@
 # Quiz Builder - :crystal_ball:Amazing app to build quizes:ok_woman:in the image:mountain_bicyclist:
 
-## [Live Link](https://jsgo.pro/quiz_builder/) :link:
+## [Live Link](https://jsgo.pro/quizbuilder/) :link:
 
 <br/>
 
