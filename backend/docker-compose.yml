@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  quizbuilder:
+    container_name: quiz-builder
+    build: ./
+    command: npm run start
+    working_dir: /usr/src/quizbuilder
+    environment:
+      DATABASE_URL: postgres://postgres:admin@postgres:5432/quiz-builder-docker
+      PORT: 3001
+    links:
+      - postgres
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./:/usr/src/quizbuilder
+      - /usr/src/quizbuilder/node_modules
+  postgres:
+    build: ./postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: quiz-builder-docker
+      POSTGRES_HOST: postgres
+    ports:
+      - '5432:5432'
