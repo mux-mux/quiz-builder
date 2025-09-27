@@ -3,10 +3,47 @@ import { useFetch } from '../hooks/useFetch';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorPage } from './ErrorPage';
 
+type Question = {
+  id: number;
+  name: string;
+  type: string;
+};
+
 type QuizDetailProps = {
   id: number;
   title: string;
-  questions: string[];
+  questions: Question[];
+};
+
+const getType = (type: string) => {
+  switch (type) {
+    case 'input':
+      return (
+        <input type="text" className="border rounded border-gray-200 px-2" />
+      );
+    case 'boolean':
+      return (
+        <div>
+          <input type="radio" name="answer" value="Yes" id="answer-yes" />
+          <label htmlFor="answer-yes">Yes</label>
+          <input type="radio" name="answer" value="No" id="answer-no" />
+          <label htmlFor="answer-no">No</label>
+        </div>
+      );
+    case 'checkbox':
+      return (
+        <div>
+          <input type="checkbox" id="answer-run" name="run" />
+          <label htmlFor="scales">Run</label>
+          <input type="checkbox" id="answer-swim" name="swim" />
+          <label htmlFor="scales">Swim</label>
+          <input type="checkbox" id="answer-jump" name="jump" />
+          <label htmlFor="scales">Jump</label>
+        </div>
+      );
+    default:
+      <input type="text" className="border rounded border-gray-200 px-2" />;
+  }
 };
 
 export function QuizDetail() {
@@ -17,26 +54,30 @@ export function QuizDetail() {
   );
 
   if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorPage title="Quiz Detal" error={error} />;
+  if (error) return <ErrorPage title="Quiz Detail" error={error} />;
   if (!data) return <div>No quiz found.</div>;
 
   return (
-    <div className="text-left">
-      {data.map(({ id, title, questions }) => (
-        <div key={id} className="space-y-4">
-          <h2 className="text-2xl">{title}</h2>
-          <ul className="list-disc">
-            {questions.map((q, index) => (
-              <li key={index}>{q}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      <div className="text-center">
-        <button onClick={() => navigate(-1)} className="mt-8">
-          Back
-        </button>
+    <>
+      <button onClick={() => navigate(-1)} className="m-auto my-8">
+        Back
+      </button>
+
+      <div>
+        {data.map(({ id, title, questions }) => (
+          <div key={id} className="space-y-4">
+            <h2 className="text-2xl">Quiz name: {title}</h2>
+            <h3 className="text-xl">Questions:</h3>
+            <ul className="list-disc text-left">
+              {questions.map(({ id, name, type }) => (
+                <li key={id} className="grid grid-cols-2 gap-2">
+                  {name} {getType(type)}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-    </div>
+    </>
   );
 }

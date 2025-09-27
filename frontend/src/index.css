@@ -68,3 +68,8 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+label {
+  padding-left: 4px;
+  padding-right: 8px;
+}

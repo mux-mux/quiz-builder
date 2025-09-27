@@ -12,15 +12,18 @@ let quizzes = [
   {
     id: ++id,
     title: 'Cats related questions',
-    questions: ['How many cats do you have?', 'What colors they are?'],
+    questions: [
+      { id: 1, name: 'How many cats do you have?', type: 'input' },
+      { id: 2, name: 'Are they black or white?', type: 'boolean' },
+    ],
   },
   {
     id: ++id,
     title: 'Dogs related questions',
     questions: [
-      'How many dogs do you have?',
-      'What colors they are?',
-      'How they are called?',
+      { id: 1, name: 'How many dogs do you have?', type: 'input' },
+      { id: 2, name: 'Are they black or brown?', type: 'boolean' },
+      { id: 3, name: 'What they like to do?', type: 'checkbox' },
     ],
   },
 ];
@@ -54,7 +57,7 @@ app.post('/quizzes', (req, res) => {
   };
 
   quizzes.push(newQuiz);
-
+  console.log(JSON.stringify(quizzes, null, 2));
   res.status(201).json(quizzes);
 });
 

@@ -41,7 +41,7 @@ export function QuizList() {
             <NavLink to={`quizzes/${id}`} className="text-lg font-semibold">
               {title}
             </NavLink>
-            <p className="mt-2">{`Quizzes: ${count}`}</p>
+            <p className="mt-2">{`Questions: ${count}`}</p>
           </div>
           <button
             onClick={() => handleDelete(id)}
@@ -52,6 +52,9 @@ export function QuizList() {
           </button>
         </div>
       ))}
+      <NavLink to="/create" className="m-auto">
+        <button>Add new quiz</button>
+      </NavLink>
     </div>
   );
 }

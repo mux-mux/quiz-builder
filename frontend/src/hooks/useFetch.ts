@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 type UseFetchProps<T> = {
   data: T | null;
@@ -12,41 +12,28 @@ export function useFetch<T>(url: string): UseFetchProps<T> {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP Error status ${response.status}`);
-        }
-
-        const json = (await response.json()) as T;
-        setData(json);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [url]);
-
-  const refetch = async () => {
-    setLoading(true);
+  const refetch = useCallback(async () => {
     try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = (await res.json()) as T;
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP Error status ${response.status}`);
+      }
+
+      const json = (await response.json()) as T;
       setData(json);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [url]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return { data, loading, error, refetch } as const;
 }

@@ -13,7 +13,7 @@ function App() {
         <Route path="/quizzes" element={<QuizList />} />
         <Route path="/quizzes/:id" element={<QuizDetail />} />
         <Route path="/create" element={<QuizCreation />} />
-        <Route path="*" element={<ErrorPage title="route" />} />
+        <Route path="*" element={<ErrorPage title="Route" />} />
       </Routes>
     </div>
   );
