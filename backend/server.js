@@ -54,8 +54,15 @@ app.post('/quizzes', (req, res) => {
   };
 
   quizzes.push(newQuiz);
-  console.log(quizzes);
+
   res.status(201).json(quizzes);
+});
+
+app.delete('/quizzes/:id', (req, res) => {
+  const { id } = req.params;
+  quizzes = quizzes.filter((quizz) => quizz.id != id);
+
+  res.status(204).end();
 });
 
 app.listen(PORT, () => {

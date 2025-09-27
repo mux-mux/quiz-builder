@@ -80,5 +80,3 @@ export function QuizCreation() {
     </div>
   );
 }
-
-export default QuizCreation;

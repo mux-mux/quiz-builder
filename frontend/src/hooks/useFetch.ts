@@ -4,6 +4,7 @@ type UseFetchProps<T> = {
   data: T | null;
   loading: boolean;
   error: string | null;
+  refetch: () => void;
 };
 
 export function useFetch<T>(url: string): UseFetchProps<T> {
@@ -33,5 +34,19 @@ export function useFetch<T>(url: string): UseFetchProps<T> {
     fetchData();
   }, [url]);
 
-  return { data, loading, error } as const;
+  const refetch = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = (await res.json()) as T;
+      setData(json);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { data, loading, error, refetch } as const;
 }
