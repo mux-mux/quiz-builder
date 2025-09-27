@@ -28,6 +28,7 @@ let quizzes = [
 app.get('/quizzes', (req, res) => {
   const titles = quizzes.map((quizz) => {
     return {
+      id: quizz.id,
       title: quizz.title,
       count: quizz.questions.length,
     };
@@ -39,6 +40,8 @@ app.get('/quizzes/:id', (req, res) => {
   const id = Number(req.params.id);
 
   const quizDetails = quizzes.filter((quiz) => quiz.id === id);
+  if (!quizDetails) return res.status(404).json('Quiz not found');
+
   res.json(quizDetails);
 });
 

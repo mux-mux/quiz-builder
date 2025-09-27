@@ -25,7 +25,7 @@ export function QuizList() {
           <NavLink to={`quizzes/${id}`} className="text-lg font-semibold">
             {title}
           </NavLink>
-          <p className="mt-2">{count}</p>
+          <p className="mt-2">{`Quizzes: ${count}`}</p>
         </div>
       ))}
     </div>
