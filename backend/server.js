@@ -54,6 +54,7 @@ app.post('/quizzes', (req, res) => {
   };
 
   quizzes.push(newQuiz);
+  console.log(quizzes);
   res.status(201).json(quizzes);
 });
 

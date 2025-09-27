@@ -16,14 +16,20 @@ export function QuizCreation() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (title.length === 0) return alert('Please add a quiz title');
+    if (questions.length === 0)
+      return alert('Please add at leaset one question');
 
     const handleCreate = async () => await mutate('POST', { title, questions });
     handleCreate();
 
+    setTitle('');
     setQuestions([]);
   };
 
   const handleAddQuestion = () => {
+    if (question.length === 0) return alert('Please fill in a question');
+
     const newQuestion = [...questions, question];
     setQuestions(newQuestion);
 
@@ -41,6 +47,7 @@ export function QuizCreation() {
           id="title"
           name="title"
           placeholder="Input title"
+          required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="border radius-md border-gray-200 px-2"
@@ -57,7 +64,15 @@ export function QuizCreation() {
           onChange={(e) => setQuestion(e.target.value)}
           className="border rounded-md border-gray-200 px-2"
         />
-        <button onClick={handleAddQuestion}>Add</button>
+        Questions:
+        <ul className="list-disc">
+          {questions.map((q, index) => (
+            <li key={index}>{q}</li>
+          ))}
+        </ul>
+        <button type="button" onClick={handleAddQuestion}>
+          Add
+        </button>
         <button type="submit" disabled={loading || !!error}>
           Submit
         </button>
