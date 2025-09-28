@@ -44,6 +44,7 @@ export function QuizCreation() {
       setTitle('');
       setQuestions([]);
       handleCreate();
+      id = 0;
     } catch (error) {
       console.error('Task creation failed:', error);
     }
@@ -78,7 +79,7 @@ export function QuizCreation() {
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border radius-md border-gray-200 p-2"
+          className="border rounded-md border-gray-200 p-2"
         />
         <div>
           <label htmlFor="question" className="block text-lg">
@@ -111,7 +112,7 @@ export function QuizCreation() {
         <ul className="list-disc text-left">
           {questions.map(({ id, name, type }) => (
             <li key={id}>
-              {name}: {type}
+              {name} <span className="font-semibold">Type: {type}</span>
             </li>
           ))}
         </ul>
