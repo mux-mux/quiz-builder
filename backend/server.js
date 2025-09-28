@@ -1,7 +1,14 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
-const PORT = 3001;
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
+
+const PORT = process.env.PORT || 3001;
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3001';
+
 let id = 0;
 
 const app = express();
@@ -69,5 +76,5 @@ app.delete('/quizzes/:id', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on: http://localhost:${PORT}`);
+  console.log(`Server is running on: ${BASE_URL}`);
 });

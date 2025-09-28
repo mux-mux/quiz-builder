@@ -44,6 +44,7 @@ Inside the `backend` folder, create a file named `.env` with the following conte
 # App Config
 PORT=3001
 BASE_URL=http://localhost:3001
+NODE_ENV=development
 
 # Database Config
 POSTGRES_USER=postgres
@@ -56,11 +57,9 @@ POSTGRES_PORT=5432
 DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
 ```
 
-⚠️ Important: Add `.env` to `.gitignore` to avoid committing secrets.
-
 ### 4️⃣ Start Backend
 
-This will set up PostgreSQL and the Express server:
+This will set start PostgreSQL and the Express server:
 
 ```sh
 cd backend
