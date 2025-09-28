@@ -1,42 +1,81 @@
 #root {
   max-width: 1280px;
+  min-width: 320px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-height: 100vh;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-duration: 200ms;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.btn:hover {
+  cursor: pointer;
 }
-
+.btn:focus {
+  box-shadow: 0 0 0 2px var(--ring-color, #000);
+}
+.btn:focus {
+  outline: none;
+}
+.btn-primary {
+  background-color: var(--brand, #2563eb);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: var(--brand-light, #3b82f6);
+}
+.btn-primary:focus {
+  box-shadow: 0 0 0 2px var(--brand, #2563eb);
+}
+.btn-secondary {
+  background-color: var(--accent, #fbbf24);
+  color: #fff;
+}
+.btn-secondary:hover {
+  background-color: var(--accent-light, #ff9706);
+}
+.btn-secondary:focus {
+  box-shadow: 0 0 0 2px var(--accent, #fbbf24);
+}
+.btn-outline {
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+.btn-outline:hover {
+  background-color: #f3f4f6;
+}
 .card {
-  padding: 2em;
+  background-color: var(--neutral-card, #fff);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
 }
-
-.read-the-docs {
-  color: #888;
+.input {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+}
+.input:focus {
+  border-color: var(--brand, #2563eb);
+}
+a {
+  font-weight: 500;
+  color: #2563eb;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #3b82f6;
 }

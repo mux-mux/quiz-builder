@@ -1,3 +1,5 @@
+import Button from '../components/Button';
+
 type ErrorProps = { title: string | null; error?: string | null };
 
 export function ErrorPage({ title, error }: ErrorProps) {
@@ -8,9 +10,13 @@ export function ErrorPage({ title, error }: ErrorProps) {
 
         <div>
           <p className="text-destructive">{error}</p>
-          <button onClick={() => window.location.reload()} className="mt-4">
+          <Button
+            variant="outline"
+            onClick={() => window.location.reload()}
+            className="mt-4"
+          >
             Try again
-          </button>
+          </Button>
         </div>
       </div>
     </div>

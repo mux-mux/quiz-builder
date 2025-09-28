@@ -1,7 +1,11 @@
-import { useParams, useNavigate } from 'react-router';
+import { useParams } from 'react-router';
 import { useFetch } from '../hooks/useFetch';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorPage } from './ErrorPage';
+import { BackButton } from '../components/BackButton';
+import { InputText } from '../components/InputText';
+import { InputRadio } from '../components/InputRadio';
+import { InputCheckbox } from '../components/InputCheckbox';
 
 type Question = {
   id: number;
@@ -18,37 +22,30 @@ type QuizDetailProps = {
 const getType = (type: string) => {
   switch (type) {
     case 'input':
-      return (
-        <input type="text" className="border rounded border-gray-200 px-2" />
-      );
+      return <InputText />;
     case 'boolean':
       return (
         <div>
-          <input type="radio" name="answer" value="Yes" id="answer-yes" />
-          <label htmlFor="answer-yes">Yes</label>
-          <input type="radio" name="answer" value="No" id="answer-no" />
-          <label htmlFor="answer-no">No</label>
+          <InputRadio name="answer" label="Yes" />
+          <InputRadio name="answer" label="No" />
         </div>
       );
     case 'checkbox':
       return (
         <div>
-          <input type="checkbox" id="answer-run" name="run" />
-          <label htmlFor="answer-run">Run</label>
-          <input type="checkbox" id="answer-swim" name="swim" />
-          <label htmlFor="answer-swim">Swim</label>
-          <input type="checkbox" id="answer-jump" name="jump" />
-          <label htmlFor="answer-jump">Jump</label>
+          <InputCheckbox label="Run" />
+          <InputCheckbox label="Swim" />
+          <InputCheckbox label="Jump" />
         </div>
       );
     default:
-      <input type="text" className="border rounded border-gray-200 px-2" />;
+      return <InputText />;
   }
 };
 
 export function QuizDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
+
   const { data, error, loading } = useFetch<QuizDetailProps[]>(
     `http://localhost:3001/quizzes/${id}`
   );
@@ -59,9 +56,7 @@ export function QuizDetail() {
 
   return (
     <>
-      <button onClick={() => navigate(-1)} className="m-auto my-8">
-        Back
-      </button>
+      <BackButton>&lArr; Back</BackButton>
 
       <div>
         {data.map(({ id, title, questions }) => (
@@ -70,7 +65,7 @@ export function QuizDetail() {
             <h3 className="text-xl">Questions:</h3>
             <ul className=" flex flex-col gap-1 list-disc text-left">
               {questions.map(({ id, name, type }) => (
-                <li key={id} className="grid grid-cols-2 gap-2">
+                <li key={id} className="grid grid-cols-2 items-center gap-2">
                   {name} {getType(type)}
                 </li>
               ))}

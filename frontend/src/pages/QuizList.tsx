@@ -4,6 +4,7 @@ import { useFetch } from '../hooks/useFetch';
 import { ErrorPage } from './ErrorPage';
 import Trash from '../assets/trash.svg';
 import { useMutate } from '../hooks/useMutate';
+import Button from '../components/Button';
 
 type QuizzesProps = {
   id: number;
@@ -43,17 +44,17 @@ export function QuizList() {
             </NavLink>
             <p className="mt-2">{`Questions: ${count}`}</p>
           </div>
-          <button
+          <Button
+            variant="secondary"
             onClick={() => handleDelete(id)}
-            className="transition-transform duration-300 hover:opacity-80"
             aria-label={`delete quiz list ${title}?`}
           >
             <img src={Trash} alt="delete task" className="size-4" />
-          </button>
+          </Button>
         </div>
       ))}
       <NavLink to="/create" className="m-auto">
-        <button>Add new quiz</button>
+        <Button variant="primary">Add new quiz</Button>
       </NavLink>
     </div>
   );
