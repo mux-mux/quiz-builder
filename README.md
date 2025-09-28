@@ -2,10 +2,6 @@
 
 Create and manage quizzes with ease using this modern full-stack application
 
-## [Live Link](https://jsgo.pro/quizbuilder/) :link:
-
-<br/>
-
 ## Folder structure :open_file_folder:
 
 The project follows a full-stack structure:

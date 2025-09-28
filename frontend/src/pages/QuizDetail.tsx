@@ -34,11 +34,11 @@ const getType = (type: string) => {
       return (
         <div>
           <input type="checkbox" id="answer-run" name="run" />
-          <label htmlFor="scales">Run</label>
+          <label htmlFor="answer-run">Run</label>
           <input type="checkbox" id="answer-swim" name="swim" />
-          <label htmlFor="scales">Swim</label>
+          <label htmlFor="answer-swim">Swim</label>
           <input type="checkbox" id="answer-jump" name="jump" />
-          <label htmlFor="scales">Jump</label>
+          <label htmlFor="answer-jump">Jump</label>
         </div>
       );
     default:
@@ -68,7 +68,7 @@ export function QuizDetail() {
           <div key={id} className="space-y-4">
             <h2 className="text-2xl">Quiz name: {title}</h2>
             <h3 className="text-xl">Questions:</h3>
-            <ul className="list-disc text-left">
+            <ul className=" flex flex-col gap-1 list-disc text-left">
               {questions.map(({ id, name, type }) => (
                 <li key={id} className="grid grid-cols-2 gap-2">
                   {name} {getType(type)}

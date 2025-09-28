@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import knex from 'knex';
 import dotenv from 'dotenv';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -9,72 +10,110 @@ if (process.env.NODE_ENV !== 'production') {
 const PORT = process.env.PORT || 3001;
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3001';
 
-let id = 0;
+const db = knex({
+  client: 'pg',
+  connection: { connectionString: process.env.DATABASE_URL },
+});
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-let quizzes = [
-  {
-    id: ++id,
-    title: 'Cats related questions',
-    questions: [
-      { id: 1, name: 'How many cats do you have?', type: 'input' },
-      { id: 2, name: 'Are they black or white?', type: 'boolean' },
-    ],
-  },
-  {
-    id: ++id,
-    title: 'Dogs related questions',
-    questions: [
-      { id: 1, name: 'How many dogs do you have?', type: 'input' },
-      { id: 2, name: 'Are they black or brown?', type: 'boolean' },
-      { id: 3, name: 'What they like to do?', type: 'checkbox' },
-    ],
-  },
-];
+app.get('/', (req, res) => res.send('server is working'));
 
-app.get('/quizzes', (req, res) => {
-  const titles = quizzes.map((quizz) => {
-    return {
-      id: quizz.id,
-      title: quizz.title,
-      count: quizz.questions.length,
-    };
-  });
-  res.json(titles);
+app.get('/quizzes', async (req, res) => {
+  try {
+    const quizzes = await db('quizzes')
+      .leftJoin('questions', 'quizzes.id', 'questions.quiz_id')
+      .groupBy('quizzes.id')
+      .select('quizzes.id', 'quizzes.title')
+      .count('questions.id as count');
+
+    res.json(quizzes);
+  } catch (error) {
+    handleError(error);
+  }
 });
 
-app.get('/quizzes/:id', (req, res) => {
+app.get('/quizzes/:id', async (req, res) => {
   const id = Number(req.params.id);
 
-  const quizDetails = quizzes.filter((quiz) => quiz.id === id);
-  if (!quizDetails) return res.status(404).json('Quiz not found');
+  try {
+    const quiz = await db('quizzes').where({ id }).first();
 
-  res.json(quizDetails);
+    if (!quiz) {
+      return res.status(404).json({ error: 'Quiz not found' });
+    }
+
+    const questions = await db('questions')
+      .where({ quiz_id: id })
+      .select('id', 'name', 'type');
+
+    res.json([
+      {
+        id: quiz.id,
+        title: quiz.title,
+        questions: questions,
+      },
+    ]);
+  } catch (error) {
+    handleError(error);
+  }
 });
 
-app.post('/quizzes', (req, res) => {
+app.post('/quizzes', async (req, res) => {
   const { title, questions } = req.body;
-  const newQuiz = {
-    id: ++id,
-    title,
-    questions,
-  };
 
-  quizzes.push(newQuiz);
-  console.log(JSON.stringify(quizzes, null, 2));
-  res.status(201).json(quizzes);
+  try {
+    const [quiz] = await db('quizzes')
+      .insert({ title })
+      .returning(['id', 'title']);
+
+    if (questions && questions.length > 0) {
+      const questionsToInsert = questions.map((q) => ({
+        quiz_id: quiz.id,
+        name: q.name,
+        type: q.type,
+      }));
+
+      await db('questions').insert(questionsToInsert);
+    }
+
+    const insertedQuestions = await db('questions')
+      .where({ quiz_id: quiz.id })
+      .select('id', 'name', 'type');
+
+    res.status(201).json({
+      id: quiz.id,
+      title: quiz.title,
+      questions: insertedQuestions,
+    });
+  } catch (error) {
+    handleError(error);
+  }
 });
 
-app.delete('/quizzes/:id', (req, res) => {
+app.delete('/quizzes/:id', async (req, res) => {
   const { id } = req.params;
-  quizzes = quizzes.filter((quizz) => quizz.id != id);
 
-  res.status(204).end();
+  try {
+    const deleted = await db('quizzes').where({ id }).del();
+
+    if (!deleted) {
+      return res.status(404).json({ error: 'Quiz not found' });
+    }
+
+    res.status(204).end();
+  } catch (error) {
+    handleError(error);
+  }
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running on: ${BASE_URL}`);
 });
+
+const handleError = (err) => {
+  console.error(err);
+  res.status(500).json({ error: 'Server error' });
+};
