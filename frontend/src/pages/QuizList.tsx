@@ -32,7 +32,7 @@ export function QuizList() {
   if (!data) return <div>No quizzes found.</div>;
 
   return (
-    <div className="flex flex-col space-y-4 mb-6 text-left">
+    <div className="flex flex-col space-y-2 mb-6 text-left">
       {data.map(({ id, title, count }) => (
         <div
           key={id}

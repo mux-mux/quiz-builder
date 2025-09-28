@@ -7,15 +7,13 @@ import { QuizCreation } from './pages/QuizCreation';
 
 function App() {
   return (
-    <div className="flex flex-col items-center space-y-4 mb-6">
-      <Routes>
-        <Route index element={<QuizList />} />
-        <Route path="/quizzes" element={<QuizList />} />
-        <Route path="/quizzes/:id" element={<QuizDetail />} />
-        <Route path="/create" element={<QuizCreation />} />
-        <Route path="*" element={<ErrorPage title="Route" />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route index element={<QuizList />} />
+      <Route path="/quizzes" element={<QuizList />} />
+      <Route path="/quizzes/:id" element={<QuizDetail />} />
+      <Route path="/create" element={<QuizCreation />} />
+      <Route path="*" element={<ErrorPage title="Route" />} />
+    </Routes>
   );
 }
 

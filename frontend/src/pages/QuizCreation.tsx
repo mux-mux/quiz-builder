@@ -64,7 +64,7 @@ export function QuizCreation() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-2 text-md my-5"
+        className="flex flex-col gap-2 text-md my-5 h-80"
       >
         <InputText
           type="text"
@@ -97,8 +97,8 @@ export function QuizCreation() {
             Add
           </Button>
         </div>
-        {questions.length !== 0 && 'Questions:'}
         <ul className="list-disc text-left">
+          {questions.length !== 0 && 'Questions:'}
           {questions.map(({ name, type }, index) => (
             <li key={index}>
               {name} <span className="font-semibold">Type: {type}</span>
