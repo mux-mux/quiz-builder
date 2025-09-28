@@ -3,6 +3,8 @@ import { useMutate } from '../hooks/useMutate';
 import { BackButton } from '../components/BackButton';
 import Button from '../components/Button';
 import { InputText } from '../components/InputText';
+import Alert from '../components/Alert';
+import { InputSelect } from '../components/InputSelect';
 
 type QuizProps = {
   title: string;
@@ -10,18 +12,16 @@ type QuizProps = {
 };
 
 type QuestionProps = {
-  id: number;
   name: string;
   type: Types;
 };
 
 type Types = 'input' | 'boolean' | 'checkbox';
 
-let id = 0;
-
 export function QuizCreation() {
   const [title, setTitle] = useState('');
   const [question, setQuestion] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
   const [type, setType] = useState<Types>('input');
   const [questions, setQuestions] = useState<QuestionProps[]>([]);
   const { loading, error, mutate } = useMutate<QuizProps>(
@@ -37,15 +37,11 @@ export function QuizCreation() {
     try {
       const handleCreate = async () =>
         await mutate('POST', { title, questions });
-      alert(
-        `New quizz with \n
-        ${JSON.stringify({ title, questions }, null, 2)}
-        \n has been succesfully created`
-      );
+
+      if (!loading && !error) setShowAlert(true);
       setTitle('');
       setQuestions([]);
       handleCreate();
-      id = 0;
     } catch (error) {
       console.error('Task creation failed:', error);
     }
@@ -54,7 +50,7 @@ export function QuizCreation() {
   const handleAddQuestion = () => {
     if (question.length === 0) return alert('Please fill in a question');
 
-    const newQuestion = { id: ++id, name: question, type };
+    const newQuestion = { name: question, type };
 
     const newQuestions = [...questions, newQuestion];
     setQuestions(newQuestions);
@@ -73,7 +69,6 @@ export function QuizCreation() {
         <InputText
           type="text"
           label="Quiz Title"
-          id="title"
           name="title"
           placeholder="Input title"
           required
@@ -85,31 +80,27 @@ export function QuizCreation() {
           <InputText
             type="text"
             label="Quiz Question"
-            id="question"
             name="question"
             placeholder="Input question"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             className="p-2 mr-2"
           />
-          <select
+          <InputSelect
             name="type"
             value={type}
             onChange={(e) => setType(e.target.value as Types)}
             className="mr-2"
-          >
-            <option value="input">Input</option>
-            <option value="boolean">Boolean</option>
-            <option value="checkbox">Checkbox</option>
-          </select>
+            options={['Input', 'Boolean', 'Checkbox']}
+          />
           <Button variant="primary" type="button" onClick={handleAddQuestion}>
             Add
           </Button>
         </div>
         {questions.length !== 0 && 'Questions:'}
         <ul className="list-disc text-left">
-          {questions.map(({ id, name, type }) => (
-            <li key={id}>
+          {questions.map(({ name, type }, index) => (
+            <li key={index}>
               {name} <span className="font-semibold">Type: {type}</span>
             </li>
           ))}
@@ -122,6 +113,13 @@ export function QuizCreation() {
           Submit
         </Button>
       </form>
+      {showAlert && (
+        <Alert
+          variant="success"
+          message="New quizz has been succesfully created"
+          onClose={() => setShowAlert(false)}
+        />
+      )}
     </div>
   );
 }

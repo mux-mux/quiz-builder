@@ -1,11 +1,11 @@
 import { useId, type InputHTMLAttributes } from 'react';
 
-export type FormInputProps = {
+export type InputTextProps = {
   label?: string;
   className?: string;
 } & InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>;
 
-export function InputText({ label, className, ...props }: FormInputProps) {
+export function InputText({ label, className, ...props }: InputTextProps) {
   const id = useId();
 
   return (

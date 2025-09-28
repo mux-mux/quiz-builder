@@ -1,4 +1,4 @@
-# Quiz Builder - :crystal_ball:Amazing app to build quizzes:ok_woman:
+# Quiz Builder - :question:Your ultimate quiz maker:fire:
 
 Create and manage quizzes with ease using this modern full-stack application
 
