@@ -58,7 +58,7 @@ export function QuizCreation() {
       setAlert({
         show: true,
         status: 'info',
-        message: 'Please add at leaset one question',
+        message: 'Please add at least one question',
       });
       return;
     }
@@ -114,6 +114,11 @@ export function QuizCreation() {
 
       <form
         onSubmit={handleSubmit}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
+            e.preventDefault();
+          }
+        }}
         className="flex flex-col gap-2 text-md my-5 h-80"
       >
         <InputText
@@ -133,6 +138,12 @@ export function QuizCreation() {
             placeholder="Input question"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleAddQuestion();
+              }
+            }}
             className="p-2 mr-2"
           />
           <InputSelect
@@ -146,25 +157,27 @@ export function QuizCreation() {
             Add
           </Button>
         </div>
-        <ul className="list-disc text-left">
+        <div>
           {questions.length !== 0 && 'Questions:'}
-          {questions.map(({ id, name, type }) => (
-            <li key={id} className="grid grid-cols-3 items-center gap-2 mb-2">
-              <span className="max-w-30 overflow-hidden text-ellipsis">
-                {name}
-              </span>{' '}
-              <span className="font-semibold">Type: {type}</span>
-              <Button
-                variant="secondary"
-                onClick={() => handleDelete(id)}
-                aria-label={`delete quiz list ${title}?`}
-                className="w-auto justify-self-start"
-              >
-                <img src={Trash} alt="delete task" className="size-4" />
-              </Button>
-            </li>
-          ))}
-        </ul>
+          <ul className="list-disc text-left">
+            {questions.map(({ id, name, type }) => (
+              <li key={id} className="grid grid-cols-3 items-center gap-2 mb-2">
+                <span className="max-w-28 overflow-hidden text-ellipsis">
+                  {name}
+                </span>{' '}
+                <span className="font-semibold">Type: {type}</span>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleDelete(id)}
+                  aria-label={`delete quiz list ${title}?`}
+                  className="w-auto justify-self-start"
+                >
+                  <img src={Trash} alt="delete task" className="size-4" />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
         <Button
           type="submit"
           disabled={loading || !!error}

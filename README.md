@@ -6,10 +6,10 @@ Create and manage quizzes with ease using this modern full-stack application
 
 The project follows a full-stack structure:
 
-- `backend/` – Express + PostgreSQL
-- `frontend/` – React.js
-- `backend/postgres/` – Docker setup for the database
-- `backend/docker-compose.yml` – Orchestrates services
+- `backend/` - Express + PostgreSQL
+- `frontend/` - React.js
+- `backend/postgres/` - Docker setup for the database
+- `backend/docker-compose.yml` - Orchestrates services
 
 <div align="center">
   <img src="https://jsgo.pro/media/structure/quiz_builder_project_structure.png" alt="Quiz Builder Folder structure" width="100%" />
