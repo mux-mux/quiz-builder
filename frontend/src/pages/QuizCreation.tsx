@@ -1,10 +1,12 @@
 import { useState, type FormEvent } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useMutate } from '../hooks/useMutate';
 import { BackButton } from '../components/BackButton';
 import Button from '../components/Button';
 import { InputText } from '../components/InputText';
 import Alert from '../components/Alert';
 import { InputSelect } from '../components/InputSelect';
+import Trash from '../assets/trash.svg';
 
 type QuizProps = {
   title: string;
@@ -12,6 +14,7 @@ type QuizProps = {
 };
 
 type QuestionProps = {
+  id: string;
   name: string;
   type: Types;
 };
@@ -47,10 +50,14 @@ export function QuizCreation() {
     }
   };
 
+  const handleDelete = (idToDelete: string) => {
+    setQuestions((prev) => prev.filter((q) => q.id !== idToDelete));
+  };
+
   const handleAddQuestion = () => {
     if (question.length === 0) return alert('Please fill in a question');
 
-    const newQuestion = { name: question, type };
+    const newQuestion = { id: uuidv4(), name: question, type };
 
     const newQuestions = [...questions, newQuestion];
     setQuestions(newQuestions);
@@ -99,9 +106,20 @@ export function QuizCreation() {
         </div>
         <ul className="list-disc text-left">
           {questions.length !== 0 && 'Questions:'}
-          {questions.map(({ name, type }, index) => (
-            <li key={index}>
-              {name} <span className="font-semibold">Type: {type}</span>
+          {questions.map(({ id, name, type }) => (
+            <li key={id} className="grid grid-cols-3 items-center gap-2 mt-2">
+              <span className="max-w-30 overflow-hidden text-ellipsis">
+                {name}
+              </span>{' '}
+              <span className="font-semibold">Type: {type}</span>
+              <Button
+                variant="secondary"
+                onClick={() => handleDelete(id)}
+                aria-label={`delete quiz list ${title}?`}
+                className="w-auto justify-self-start"
+              >
+                <img src={Trash} alt="delete task" className="size-4" />
+              </Button>
             </li>
           ))}
         </ul>

@@ -54,7 +54,9 @@ export function QuizList() {
         </div>
       ))}
       <NavLink to="/create" className="m-auto">
-        <Button variant="primary">Add new quiz</Button>
+        <Button variant="primary" className="mt-4">
+          Add new quiz
+        </Button>
       </NavLink>
     </div>
   );
