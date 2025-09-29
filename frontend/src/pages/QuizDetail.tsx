@@ -61,11 +61,14 @@ export function QuizDetail() {
       <div>
         {data.map(({ id, title, questions }) => (
           <div key={id} className="space-y-4">
-            <h2 className="text-2xl">Quiz name: {title}</h2>
-            <h3 className="text-xl">Questions:</h3>
+            <h2 className="text-2xl">{title}</h2>
+            <h3 className="text-xl">Questions</h3>
             <ul className=" flex flex-col gap-1 list-disc text-left">
               {questions.map(({ id, name, type }) => (
-                <li key={id} className="grid grid-cols-2 items-center gap-2">
+                <li
+                  key={id}
+                  className="grid grid-cols-1 sm:grid-cols-2 items-center gap-2"
+                >
                   {name} {getType(type)}
                 </li>
               ))}

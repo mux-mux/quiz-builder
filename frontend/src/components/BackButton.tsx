@@ -10,7 +10,7 @@ export function BackButton({ children }: BackButtonProps) {
   const navigate = useNavigate();
 
   return (
-    <Button variant="outline" onClick={() => navigate(-1)}>
+    <Button variant="outline" onClick={() => navigate(-1)} className="mb-4">
       {children}
     </Button>
   );

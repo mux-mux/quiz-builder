@@ -109,7 +109,7 @@ export function QuizCreation() {
   };
 
   return (
-    <div>
+    <>
       <BackButton>&lArr; Back</BackButton>
 
       <form
@@ -119,7 +119,7 @@ export function QuizCreation() {
             e.preventDefault();
           }
         }}
-        className="flex flex-col gap-2 text-md my-5 h-80"
+        className="flex flex-col gap-2 text-md h-80"
       >
         <InputText
           type="text"
@@ -130,22 +130,22 @@ export function QuizCreation() {
           onChange={(e) => setTitle(e.target.value)}
           className="p-2"
         />
-        <div className="space-y-2">
-          <InputText
-            type="text"
-            label="Quiz Question"
-            name="question"
-            placeholder="Input question"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleAddQuestion();
-              }
-            }}
-            className="p-2 mr-2"
-          />
+        <InputText
+          type="text"
+          label="Quiz Question"
+          name="question"
+          placeholder="Input question"
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleAddQuestion();
+            }
+          }}
+          className="p-2"
+        />
+        <div>
           <InputSelect
             name="type"
             value={type}
@@ -153,7 +153,7 @@ export function QuizCreation() {
             className="mr-2"
             options={['Input', 'Boolean', 'Checkbox']}
           />
-          <Button variant="primary" type="button" onClick={handleAddQuestion}>
+          <Button type="button" onClick={handleAddQuestion} variant="primary">
             Add
           </Button>
         </div>
@@ -167,8 +167,9 @@ export function QuizCreation() {
                 </span>{' '}
                 <span className="font-semibold">Type: {type}</span>
                 <Button
-                  variant="secondary"
+                  type="submit"
                   onClick={() => handleDelete(id)}
+                  variant="secondary"
                   aria-label={`delete quiz list ${title}?`}
                   className="w-auto justify-self-start"
                 >
@@ -193,6 +194,6 @@ export function QuizCreation() {
           onClose={() => setAlert(ALERT_INITIAL)}
         />
       )}
-    </div>
+    </>
   );
 }
