@@ -7,6 +7,7 @@ import { InputText } from '../components/InputText';
 import Alert from '../components/Alert';
 import { InputSelect } from '../components/InputSelect';
 import Trash from '../assets/trash.svg';
+import { type StatusTypes } from '../components/Alert';
 
 type QuizProps = {
   title: string;
@@ -19,12 +20,24 @@ type QuestionProps = {
   type: Types;
 };
 
+type AlertProps = {
+  show: boolean;
+  status: StatusTypes;
+  message: string;
+};
+
 type Types = 'input' | 'boolean' | 'checkbox';
+
+const ALERT_INITIAL: AlertProps = {
+  show: false,
+  status: 'info' as StatusTypes,
+  message: '',
+};
 
 export function QuizCreation() {
   const [title, setTitle] = useState('');
   const [question, setQuestion] = useState('');
-  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState<AlertProps>(ALERT_INITIAL);
   const [type, setType] = useState<Types>('input');
   const [questions, setQuestions] = useState<QuestionProps[]>([]);
   const { loading, error, mutate } = useMutate<QuizProps>(
@@ -33,20 +46,43 @@ export function QuizCreation() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (title.length === 0) return alert('Please add a quiz title');
-    if (questions.length === 0)
-      return alert('Please add at leaset one question');
+    if (title.length === 0) {
+      setAlert({
+        show: true,
+        status: 'info',
+        message: 'Please add a quiz title',
+      });
+      return;
+    }
+    if (questions.length === 0) {
+      setAlert({
+        show: true,
+        status: 'info',
+        message: 'Please add at leaset one question',
+      });
+      return;
+    }
 
     try {
       const handleCreate = async () =>
         await mutate('POST', { title, questions });
 
-      if (!loading && !error) setShowAlert(true);
+      if (!loading && !error) {
+        setAlert({
+          show: true,
+          status: 'success',
+          message: 'New quizz has been succesfully created',
+        });
+      }
       setTitle('');
       setQuestions([]);
       handleCreate();
     } catch (error) {
-      console.error('Task creation failed:', error);
+      setAlert({
+        show: true,
+        status: 'failed',
+        message: `Task creation failed: ${error}`,
+      });
     }
   };
 
@@ -55,7 +91,14 @@ export function QuizCreation() {
   };
 
   const handleAddQuestion = () => {
-    if (question.length === 0) return alert('Please fill in a question');
+    if (question.length === 0) {
+      setAlert({
+        show: true,
+        status: 'info',
+        message: 'Please fill in a question',
+      });
+      return;
+    }
 
     const newQuestion = { id: uuidv4(), name: question, type };
 
@@ -78,7 +121,6 @@ export function QuizCreation() {
           label="Quiz Title"
           name="title"
           placeholder="Input title"
-          required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="p-2"
@@ -107,7 +149,7 @@ export function QuizCreation() {
         <ul className="list-disc text-left">
           {questions.length !== 0 && 'Questions:'}
           {questions.map(({ id, name, type }) => (
-            <li key={id} className="grid grid-cols-3 items-center gap-2 mt-2">
+            <li key={id} className="grid grid-cols-3 items-center gap-2 mb-2">
               <span className="max-w-30 overflow-hidden text-ellipsis">
                 {name}
               </span>{' '}
@@ -126,16 +168,16 @@ export function QuizCreation() {
         <Button
           type="submit"
           disabled={loading || !!error}
-          className="self-center w-48 items-center"
+          className="self-center w-48 items-center mt-2"
         >
           Submit
         </Button>
       </form>
-      {showAlert && (
+      {alert.show && (
         <Alert
-          variant="success"
-          message="New quizz has been succesfully created"
-          onClose={() => setShowAlert(false)}
+          status={alert.status}
+          message={alert.message}
+          onClose={() => setAlert(ALERT_INITIAL)}
         />
       )}
     </div>
