@@ -31,7 +31,7 @@ app.get('/quizzes', async (req, res) => {
 
     res.json(quizzes);
   } catch (error) {
-    handleError(error);
+    handleError(error, res);
   }
 });
 
@@ -57,7 +57,7 @@ app.get('/quizzes/:id', async (req, res) => {
       },
     ]);
   } catch (error) {
-    handleError(error);
+    handleError(error, res);
   }
 });
 
@@ -89,7 +89,7 @@ app.post('/quizzes', async (req, res) => {
       questions: insertedQuestions,
     });
   } catch (error) {
-    handleError(error);
+    handleError(error, res);
   }
 });
 
@@ -105,15 +105,19 @@ app.delete('/quizzes/:id', async (req, res) => {
 
     res.status(204).end();
   } catch (error) {
-    handleError(error);
+    handleError(error, res);
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on: ${BASE_URL}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on: ${BASE_URL}`);
+  });
+}
 
-const handleError = (err) => {
+const handleError = (err, res) => {
   console.error(err);
   res.status(500).json({ error: 'Server error' });
 };
+
+export default app;
