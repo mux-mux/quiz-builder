@@ -35,7 +35,7 @@ const Alert = ({ status, message, onClose }: AlertProps) => {
       ref={alertRef}
       role="alert"
       className={
-        `fixed bottom-4 left-1/2 transform -translate-x-1/2 flex items-center px-4 py-2 rounded z-50 ` +
+        `fixed bottom-4 left-1/2 transform -translate-x-1/2 flex items-center px-4 py-2 rounded z-50 max-w-[280px] w-[80%] justify-center sm:w-auto ` +
         bg
       }
     >

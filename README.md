@@ -2,6 +2,11 @@
 
 Create and manage quizzes with ease using this modern full-stack application
 
+<div align="center">
+  <img src="https://jsgo.pro/media/gif/quiz-builder.gif" alt="Quiz Builder Demo" />
+  <br>
+</div>
+
 ## Folder structure :open_file_folder:
 
 The project follows a full-stack structure:
@@ -83,5 +88,6 @@ Ensure Docker Desktop is running before executing npm run docker.<br/>
 If you encounter any issues, try running:
 
 ```sh
+cd backend
 docker-compose down && npm run docker
 ```

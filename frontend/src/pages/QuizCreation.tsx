@@ -161,10 +161,11 @@ export function QuizCreation() {
           {questions.length !== 0 && 'Questions:'}
           <ul className="list-disc text-left">
             {questions.map(({ id, name, type }) => (
-              <li key={id} className="grid grid-cols-3 items-center gap-2 mb-2">
-                <span className="max-w-28 overflow-hidden text-ellipsis">
-                  {name}
-                </span>{' '}
+              <li
+                key={id}
+                className="grid grid-cols-[1fr_100px_50px] items-center gap-2 mb-2 text-sm"
+              >
+                <span className="truncate max-w-[6rem]">{name}</span>
                 <span className="font-semibold">Type: {type}</span>
                 <Button
                   type="submit"
