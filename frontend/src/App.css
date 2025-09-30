@@ -2,11 +2,11 @@
   max-width: 1280px;
   min-width: 320px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 10px;
   text-align: center;
 
   @media screen and (min-width: 40rem) {
-    padding: 2rem;
+    padding: 20px;
   }
 }
 body {
@@ -17,9 +17,9 @@ body {
 }
 
 .btn {
-  padding: 0.5rem 1rem;
+  padding: 8px 16px;
   font-weight: 500;
-  border-radius: 0.75rem;
+  border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   transition-property: color, background-color, border-color,
     text-decoration-color, fill, stroke;
@@ -64,13 +64,13 @@ body {
 .card {
   background-color: var(--neutral-card, #fff);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 1rem;
-  padding: 1.5rem;
+  border-radius: 8px;
+  padding: 16px;
 }
 .input {
-  padding: 0.3rem 0.5rem;
+  padding: 4px 8px;
   border: 1px solid #d1d5db;
-  border-radius: 0.75rem;
+  border-radius: 8px;
 }
 .input:focus {
   border-color: var(--brand, #2563eb);
