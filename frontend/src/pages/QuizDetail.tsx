@@ -67,9 +67,9 @@ export function QuizDetail() {
               {questions.map(({ id, name, type }) => (
                 <li
                   key={id}
-                  className="grid grid-cols-1 sm:grid-cols-2 items-center gap-2"
+                  className="grid grid-cols-1 sm:grid-cols-2 items-center gap-1"
                 >
-                  {name} {getType(type)}
+                  <span className="font-medium">{name}</span> {getType(type)}
                 </li>
               ))}
             </ul>

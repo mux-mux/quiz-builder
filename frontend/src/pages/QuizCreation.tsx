@@ -103,6 +103,7 @@ export function QuizCreation() {
     const newQuestion = { id: uuidv4(), name: question, type };
 
     const newQuestions = [...questions, newQuestion];
+    console.log(newQuestion);
     setQuestions(newQuestions);
 
     setQuestion('');
@@ -151,7 +152,7 @@ export function QuizCreation() {
             value={type}
             onChange={(e) => setType(e.target.value as Types)}
             className="mr-2"
-            options={['Input', 'Boolean', 'Checkbox']}
+            options={['input', 'boolean', 'checkbox']}
           />
           <Button type="button" onClick={handleAddQuestion} variant="primary">
             Add
